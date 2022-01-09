@@ -1033,20 +1033,6 @@ contract RoboDogeCoin is Context, IERC20, Ownable {
         delete limitInfos[_address];
     }
 
-    function mint(uint256 amount) external {
-        require(_msgSender() == reservePoolAddress);
-
-        uint256 rate = _getReflectionRate();
-        _reflectionBalance[_msgSender()] = _reflectionBalance[_msgSender()].add(
-            amount * rate
-        );
-        _reflectionTotal = _reflectionTotal.add(amount * rate);
-        _tokenTotal = _tokenTotal.add(amount);
-
-        _moveDelegates(_delegates[address(0)], _delegates[msg.sender], amount);
-        emit Transfer(address(0), _msgSender(), amount);
-    }
-
     function burn(uint256 amount) external {
         uint256 rate = _getReflectionRate();
         _reflectionBalance[msg.sender] = _reflectionBalance[msg.sender].sub(
